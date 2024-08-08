@@ -1,1 +1,439 @@
-<html><head><title>My First Post</title></head><body><p>This is the content of my first post!</p></body></html>
+<html><head><title>My First Post</title></head><body><p>I wrote a bit of JSX in my editor:</p>
+<p>```js</p>
+<p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+  Hello, <i>Alice</i>!
+</p>
+<p>```</p>
+<p>Right now, this information only exists on <em>my</em> device. But with a bit of luck, it will travel through time and space to <em>your</em> device, and appear on <em>your</em> screen.</p>
+<p>```js eval</p>
+<p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+  Hello, <i>Alice</i>!
+</p>
+<p>```</p>
+<p>The fact that this works is a marvel of engineering.</p>
+<p>Deep inside of your browser, there are pieces of code that know how to display a paragraph or draw text in italics. These pieces of code are different between different browsers, and even between different versions of the same browser. Drawing to the screen is also done differently on different operating systems.</p>
+<p>However, because these concepts have been given agreed-upon <em>names</em> (<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p"><code>&lt;p&gt;</code></a> for a paragraph, <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i"><code>&lt;i&gt;</code></a> for italics), I can refer to them without worrying how they <em>really</em> work on your device. I can't directly access their internal logic but I know which information I can pass to them (such as a CSS <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/className"><code>className</code></a>). Thanks to the web standards, I can be reasonably sure my greeting will appear as I intended.</p>
+<p>Tags like <code>&lt;p&gt;</code> and <code>&lt;i&gt;</code> let us refer to the built-in browser concepts. However, names don't <em>have to</em> refer to something built-in. For example, I'm using CSS classes like <a href="https://tailwindcss.com/docs/font-size"><code>text-2xl</code></a> and <a href="https://tailwindcss.com/docs/font-family"><code>font-sans</code></a> to style my greeting. I didn't come up with those names myself--they come from a CSS library called Tailwind. I've included it on this page which lets me use any of the CSS class names it defines.</p>
+<p>So why do we like giving names to things?</p>
+<hr />
+<p>I wrote <code>&lt;p&gt;</code> and <code>&lt;i&gt;</code>, and my editor recognized those names. So did your browser. If you've done some web development, you probably recognized them too, and maybe even guessed what would appear on the screen by reading the markup. In that sense, names help us start with a bit of a shared understanding.</p>
+<p>Fundamentally, computers execute relatively basic kinds of instructions--like adding or multiplying numbers, writing stuff to memory and reading from it, or communicating with external devices like a display. Merely showing a <code>&lt;p&gt;</code> on your screen could involve running hundreds of thousands of such instructions.</p>
+<p>If you saw all the instructions your computer ran to display a <code>&lt;p&gt;</code> on the screen, you could hardly guess what they're doing. It's like trying to figure out which song is playing by analyzing all the atoms bouncing around the room. It would seem incomprehensible! You'd need to "zoom out" to see what's going on.</p>
+<p>To describe a complex system, or to instruct a complex system what to do, it helps to separate its behavior into layers that build on each other's concepts.</p>
+<p>This way, people working on screen drivers can focus on how to send the right colors to the right pixels. Then people working on text rendering can focus on how each character should turn into a bunch of pixels. And that lets people like me focus on picking just the right color for my "paragraphs" and "italics".</p>
+<p>We like names because they let us forget what's behind them.</p>
+<hr />
+<p>I've used many names that other people came up with. Some are built into the browsers, like <code>&lt;p&gt;</code> and <code>&lt;i&gt;</code>. Some are built into the tools I'm using, like <code>text-2xl</code> and <code>font-sans</code>. These may be my building blocks, but what am <em>I</em> building?</p>
+<p>For example, what is this?</p>
+<p>```js</p>
+<p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+  Hello, <i>Alice</i>!
+</p>
+<p>```</p>
+<p>```js eval</p>
+<p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+  Hello, <i>Alice</i>!
+</p>
+<p>```</p>
+<p>From your browser's perspective, this is a paragraph with certain CSS classes (which make it large and purple) and some text inside (part of it is in italics).</p>
+<p>But from <em>my</em> perspective, it's <em>a greeting for Alice.</em> Although my greeting <em>happens</em> to be a paragraph, most of the time I want to think about it this way instead:</p>
+<p><code>js
+&lt;Greeting person={alice} /&gt;</code></p>
+<p>Giving this concept a name provides me with some newfound flexibility. I can now display multiple <code>Greeting</code>s without copying and pasting their markup. I can pass different data to them. If I wanted to change how all greetings look and behave, I could do it in a single place. Turning <code>Greeting</code> into its own concept lets me adjust <em>"which greetings to display"</em> separately from <em>"what a greeting is"</em>.</p>
+<p>However, I have also introduced a problem.</p>
+<p>Now that I've given this concept a name, the "language" in my mind is different from the "language" that your browser speaks. Your browser knows about <code>&lt;p&gt;</code> and <code>&lt;i&gt;</code>, but it has never heard of a <code>&lt;Greeting&gt;</code>--that's my own concept. If I wanted your browser to understand what I mean, I'd have to "translate" this piece of markup to only use the concepts that your browser already knows.</p>
+<p>I'd need to turn this:</p>
+<p><code>js
+&lt;Greeting person={alice} /&gt;</code></p>
+<p>into this:</p>
+<p>```js</p>
+<p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+  Hello, <i>Alice</i>!
+</p>
+<p>```</p>
+<p>How would I go about that?</p>
+<hr />
+<p>To name something, I need to define it.</p>
+<p>For example, <code>alice</code> does not mean anything until I define <code>alice</code>:</p>
+<p><code>js
+const alice = {
+  firstName: 'Alice',
+  birthYear: 1970
+};</code></p>
+<p>Now <code>alice</code> refers to that JavaScript object.</p>
+<p>Similarly, I need to actually <em>define</em> what my concept of a <code>Greeting</code> means.</p>
+<p>I will define a <code>Greeting</code> for any <code>person</code> as a paragraph showing "Hello, " followed by <em>that</em> person's first name in italics, plus an exclamation mark:</p>
+<p><code>js
+function Greeting({ person }) {
+  return (
+    &lt;p className="text-2xl font-sans text-purple-400 dark:text-purple-500"&gt;
+      Hello, &lt;i&gt;{person.firstName}&lt;/i&gt;!
+    &lt;/p&gt;
+  );
+}</code></p>
+<p>Unlike <code>alice</code>, I defined <code>Greeting</code> as a function. This is because <em>a greeting</em> would have to be different for every person. <code>Greeting</code> is a piece of code--it performs a <em>transformation</em> or a <em>translation</em>. It <em>turns</em> some data into some UI.</p>
+<p>That gives me an idea for what to do with this:</p>
+<p><code>js
+&lt;Greeting person={alice} /&gt;</code></p>
+<p>Your browser wouldn't know what a <code>Greeting</code> is--that's my own concept. But now that I wrote a definition for that concept, I can <em>apply</em> this definition to "unpack" what I meant. You see, <em>a greeting for a person is actually a paragraph:</em></p>
+<p><code>js {3-5}
+function Greeting({ person }) {
+  return (
+    &lt;p className="text-2xl font-sans text-purple-400 dark:text-purple-500"&gt;
+      Hello, &lt;i&gt;{person.firstName}&lt;/i&gt;!
+    &lt;/p&gt;
+  );
+}</code></p>
+<p>Plugging the <code>alice</code>'s data into that definition, I end up with this final JSX:</p>
+<p>```js</p>
+<p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+  Hello, <i>Alice</i>!
+</p>
+<p>```</p>
+<p>At this point I only refer to the browser's own concepts. By substituting the <code>Greeting</code> with what I defined it to be, I have "translated" it for your browser.</p>
+<p>```js eval
+function Greeting({ person }) {
+  return (
+    <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+      Hello, <i>{person.firstName}</i>!
+    </p>
+  );
+}</p>
+<p>const alice = {
+  firstName: 'Alice',
+  birthYear: 1970
+};</p>
+<p><Greeting person={alice} />
+```</p>
+<p>Now let's teach a computer to do the same thing.</p>
+<hr />
+<p>Take a look at what JSX is made of.</p>
+<p><code>js
+const originalJSX = &lt;Greeting person={alice} /&gt;;
+console.log(originalJSX.type);  // Greeting
+console.log(originalJSX.props); // { person: { firstName: 'Alice', birthYear: 1970 } }</code></p>
+<p>Under the hood, JSX constructs an object with the <code>type</code> property corresponding to the tag, and the <code>props</code> property corresponding to the JSX attributes.</p>
+<p>You can think of <code>type</code> as being the "code" and <code>props</code> as being the "data". To get the result, you need to plug that data <em>into</em> that code like I've done earlier.</p>
+<p>Here is a little function I wrote that does exactly that:</p>
+<p><code>js
+function translateForBrowser(originalJSX) {
+  const { type, props } = originalJSX;
+  return type(props);
+}</code></p>
+<p>In this case, <code>type</code> will be <code>Greeting</code> and <code>props</code> will be <code>{ person: alice }</code>, so <code>translateForBrowser(&lt;Greeting person={alice} /&gt;)</code> will return the result of calling <code>Greeting</code> with <code>{ person: alice }</code> as the argument.</p>
+<p>Which, as you might recall from the previous section, would give me this:</p>
+<p>```js</p>
+<p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+  Hello, <i>Alice</i>!
+</p>
+<p>```</p>
+<p>And that's exactly what I wanted!</p>
+<p>You can verify that feeding my original piece of JSX to <code>translateForBrowser</code> will produce the "browser JSX" that only refers to concepts like <code>&lt;p&gt;</code> and <code>&lt;i&gt;</code>.</p>
+<p>```js {5-7}
+const originalJSX = <Greeting person={alice} />;
+console.log(originalJSX.type);  // Greeting
+console.log(originalJSX.props); // { person: { firstName: 'Alice', birthYear: 1970 } }</p>
+<p>const browserJSX = translateForBrowser(originalJSX);
+console.log(browserJSX.type);  // 'p'
+console.log(browserJSX.props); // { className: 'text-2xl font-sans text-purple-400 dark:text-purple-500', children: ['Hello', { type: 'i', props: { children: 'Alice' }, '!'] }
+```</p>
+<p>There are many things I could do with that "browser JSX". For example, I could turn it into an HTML string to be sent to the browser. I could also convert it into a sequence of instructions that update an already existing DOM node. For now, I won't be focusing on the different ways to use it. All that matters right now is that by the time I have the "browser JSX", there is nothing left to "translate".</p>
+<p>It's as if my <code>&lt;Greeting&gt;</code> has dissolved, and <code>&lt;p&gt;</code> and <code>&lt;i&gt;</code> are the residue.</p>
+<hr />
+<p>Let's try something a tiny bit more complex. Suppose I want to wrap my greeting inside a <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details"><code>&lt;details&gt;</code></a> tag so that it appears collapsed by default:</p>
+<p>```js {1,3}</p>
+<details>
+  <Greeting person={alice} />
+</details>
+<p>```</p>
+<p>The browser should display it like this (click "Details" to expand it!)</p>
+<p>```js eval
+function Greeting({ person }) {
+  return (
+    <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+      Hello, <i>{person.firstName}</i>!
+    </p>
+  );
+}</p>
+<p>const alice = {
+  firstName: 'Alice',
+  birthYear: 1970
+};</p>
+<details className="pb-8">
+  <Greeting person={alice} />
+</details>
+<p>```</p>
+<p>So now my task is to figure out how to turn this:</p>
+<p>```js</p>
+<details>
+  <Greeting person={alice} />
+</details>
+<p>```</p>
+<p>into this:</p>
+<p>```js</p>
+<details>
+  <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+    Hello, <i>Alice</i>!
+  </p>
+</details>
+<p>```</p>
+<p>Let's see if <code>translateForBrowser</code> can already handle that.</p>
+<p>```js {2-4,9}
+const originalJSX = (
+<br />
+<details>
+    <Greeting person={alice} />
+  </details></p>
+<p>);
+console.log(originalJSX.type);  // 'details'
+console.log(originalJSX.props); // { children: { type: Greeting, props: { person: alice } } }</p>
+<p>const browserJSX = translateForBrowser(originalJSX);
+```</p>
+<p>You will get an error inside of the <code>translateForBrowser</code> call:</p>
+<p><code>js {3}
+function translateForBrowser(originalJSX) {
+  const { type, props } = originalJSX;
+  return type(props); // 🔴 TypeError: type is not a function
+}</code></p>
+<p>What happened here? My <code>translateForBrowser</code> implementation assumed that <code>type</code>--that is, <code>originalJSX.type</code>--is always a function like <code>Greeting</code>.</p>
+<p>However, notice that <code>originalJSX.type</code> is actually a <em>string</em> this time:</p>
+<p>```js {6}
+const originalJSX = (
+<br />
+<details>
+    <Greeting person={alice} />
+  </details></p>
+<p>);
+console.log(originalJSX.type);  // 'details'
+console.log(originalJSX.props); // { children: { type: Greeting, props: { person: alice } } }
+```</p>
+<p>When you start a JSX tag with a lower case (like <code>&lt;details&gt;</code>), by convention it's assumed that you <em>want</em> a built-in tag rather than some function you defined.</p>
+<p>Since built-in tags don't have any code associated with them (that code is somewhere inside your browser!), the <code>type</code> will be a string like <code>'details'</code>. How <code>&lt;details&gt;</code> work is opaque to my code--all I really know is its name.</p>
+<p>Let's split the logic in two cases, and skip translating the built-ins for now:</p>
+<p><code>js {3,5-7}
+function translateForBrowser(originalJSX) {
+  const { type, props } = originalJSX;
+  if (typeof type === 'function') {
+    return type(props);
+  } else if (typeof type === 'string') {
+    return originalJSX;
+  }
+}</code></p>
+<p>After this change, <code>translateForBrowser</code> will only attempt to call some function if the original JSX's <code>type</code> actually <em>is</em> a function like <code>Greeting</code>.</p>
+<p>So that's the result I wanted, right?...</p>
+<p>```js</p>
+<details>
+  <Greeting person={alice} />
+</details>
+<p>```</p>
+<p>Wait. What I wanted is this:</p>
+<p>```js</p>
+<details>
+  <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+    Hello, <i>Alice</i>!
+  </p>
+</details>
+<p>```</p>
+<p>In my translation process, I want to <em>skip over</em> the <code>&lt;details&gt;</code> tag because its implementation is opaque to me. I can't do anything useful with it--it is fully up to the browser. However, anything <em>inside</em> of it may still need to be translated!</p>
+<p>Let's fix <code>translateForBrowser</code> to translate any built-in tag's children:</p>
+<p><code>js {6-12}
+function translateForBrowser(originalJSX) {
+  const { type, props } = originalJSX;
+  if (typeof type === 'function') {
+    return type(props);
+  } else if (typeof type === 'string') {
+    return {
+      type,
+      props: {
+        ...props,
+        children: translateForBrowser(props.children)
+      }
+    };
+  }
+}</code></p>
+<p>With this change, when it meets an element like <code>&lt;details&gt;...&lt;/details&gt;</code>, it will return another <code>&lt;details&gt;...&lt;/details&gt;</code> tag, but the stuff <em>inside</em> of it would be translated with my function again--so the <code>Greeting</code> will be gone:</p>
+<p>```js</p>
+<details>
+  <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+    Hello, <i>Alice</i>!
+  </p>
+</details>
+<p>```</p>
+<p>And <em>now</em> I am speaking the browser's "language" again:</p>
+<p>```js eval</p>
+<details className="pb-8">
+  <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+    Hello, <i>Alice</i>!
+  </p>
+</details>
+<p>```</p>
+<p>The <code>Greeting</code> has been dissolved.</p>
+<hr />
+<p>Now suppose that I try to define an <code>ExpandableGreeting</code>:</p>
+<p><code>js
+function ExpandableGreeting({ person }) {
+  return (
+    &lt;details&gt;
+      &lt;Greeting person={person} /&gt;
+    &lt;/details&gt;
+  );
+}</code></p>
+<p>Here is my new original JSX:</p>
+<p><code>js
+&lt;ExpandableGreeting person={alice} /&gt;</code></p>
+<p>If I run it through <code>translateForBrowser</code>, I'll get this JSX in return:</p>
+<p>```js</p>
+<details>
+  <Greeting person={alice} />
+</details>
+<p>```</p>
+<p>But that's not what I wanted! It still has a <code>Greeting</code> in it, and we don't consider a piece of JSX "browser-ready" until <em>all</em> of my own concepts are gone.</p>
+<p>This is a bug in my <code>translateForBrowser</code> function. When it calls a function like <code>ExpandableGreeting</code>, it will return its output, and not do anything else. But we need to keep on going! That returned JSX <em>also</em> needs to be translated.</p>
+<p>Luckily, there is an easy way I can solve this. When I call a function like <code>ExpandableGreeting</code>, I can take the JSX it returned and translate <em>that</em> next:</p>
+<p><code>js {4-5}
+function translateForBrowser(originalJSX) {
+  const { type, props } = originalJSX;
+  if (typeof type === 'function') {
+    const returnedJSX = type(props);
+    return translateForBrowser(returnedJSX);
+  } else if (typeof type === 'string') {
+    return {
+      type,
+      props: {
+        ...props,
+        children: translateForBrowser(props.children)
+      }
+    };
+  }
+}</code></p>
+<p>I also need to stop the process when there's nothing left to translate, like if it receives <code>null</code> or a string. If it receives an array of things, I need to translate each of them. With these two fixes, <code>translateForBrowser</code> is complete:</p>
+<p><code>js {2-7}
+function translateForBrowser(originalJSX) {
+  if (originalJSX == null || typeof originalJSX !== 'object') {
+    return originalJSX;
+  }
+  if (Array.isArray(originalJSX)) {
+    return originalJSX.map(translateForBrowser);
+  }
+  const { type, props } = originalJSX;
+  if (typeof type === 'function') {
+    const returnedJSX = type(props);
+    return translateForBrowser(returnedJSX);
+  } else if (typeof type === 'string') {
+    return {
+      type,
+      props: {
+        ...props,
+        children: translateForBrowser(props.children)
+      }
+    };
+  }
+}</code></p>
+<p>Now, suppose that I start with this:</p>
+<p><code>js
+&lt;ExpandableGreeting person={alice} /&gt;</code></p>
+<p>It will turn into this:</p>
+<p>```js</p>
+<details>
+  <Greeting person={alice} />
+</details>
+<p>```</p>
+<p>Which will turn into this:</p>
+<p>```js</p>
+<details>
+  <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+    Hello, <i>Alice</i>!
+  </p>
+</details>
+<p>```</p>
+<p>And at that point, the process will stop.</p>
+<hr />
+<p>Let's see how this works one more time, with a bit of extra depth.</p>
+<p>I'll define <code>WelcomePage</code> like this:</p>
+<p><code>js
+function WelcomePage() {
+  return (
+    &lt;section&gt;
+      &lt;h1 className="text-3xl font-sans pb-2"&gt;Welcome&lt;/h1&gt;
+      &lt;ExpandableGreeting person={alice} /&gt;
+      &lt;ExpandableGreeting person={bob} /&gt;
+      &lt;ExpandableGreeting person={crystal} /&gt;
+    &lt;/section&gt;
+  );
+}</code></p>
+<p>Now let's say I start the process with this original JSX:</p>
+<p><code>js
+&lt;WelcomePage /&gt;</code></p>
+<p>Can you retrace the sequence of transformations in your head?</p>
+<p>Let's do it step by step together.</p>
+<p>First, imagine <code>WelcomePage</code> dissolving, leaving behind its output:</p>
+<p>```js {1-6}</p>
+<section>
+  <h1 className="text-3xl font-sans pb-2">Welcome</h1>
+  <ExpandableGreeting person={alice} />
+  <ExpandableGreeting person={bob} />
+  <ExpandableGreeting person={crystal} />
+</section>
+<p>```</p>
+<p>Then imagine each <code>ExpandableGreeting</code> dissolving, leaving behind <em>its</em> output:</p>
+<p>```js {3-11}</p>
+<section>
+  <h1 className="text-3xl font-sans pb-2">Welcome</h1>
+  <details>
+    <Greeting person={alice} />
+  </details>
+  <details>
+    <Greeting person={bob} />
+  </details>
+  <details>
+    <Greeting person={crystal} />
+  </details>
+</section>
+<p>```</p>
+<p>Then imagine each <code>Greeting</code> dissolving, leaving behind <em>its</em> output:</p>
+<p>```js {4-6,9-11,14-16}</p>
+<section>
+  <h1 className="text-3xl font-sans pb-2">Welcome</h1>
+  <details>
+    <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+      Hello, <i>Alice</i>!
+    </p>
+  </details>
+  <details>
+    <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+      Hello, <i>Bob</i>!
+    </p>
+  </details>
+  <details>
+    <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+      Hello, <i>Crystal</i>!
+    </p>
+  </details>
+</section>
+<p>```</p>
+<p>And now there is nothing left to "translate". All <em>my</em> concepts have dissolved.</p>
+<p>```js eval</p>
+<section className="pb-8">
+  <h1 className="text-3xl font-sans pb-2">Welcome</h1>
+  <details>
+    <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+      Hello, <i>Alice</i>!
+    </p>
+  </details>
+  <details>
+    <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+      Hello, <i>Bob</i>!
+    </p>
+  </details>
+  <details>
+    <p className="text-2xl font-sans text-purple-400 dark:text-purple-500">
+      Hello, <i>Crystal</i>!
+    </p>
+  </details>
+</section>
+<p>```</p>
+<p>This feels like a chain reaction. You mix a bit of data and code, and it keeps transforming until there is no more code to run, and only the residue is left.</p>
+<p>It would be nice if there was a library that could do this for us.</p>
+<p>But wait, here's a question. These transformations have to happen <em>somewhere</em> on the way between your computer and mine. So where <em>do</em> they happen?</p>
+<p>Do they happen on your computer?</p>
+<p>Or do they happen on mine?</p></body></html>
